@@ -10,62 +10,72 @@ namespace my_portfolio_project.Data
             new UserDto
             {
                 UserName = "Oluwaseyi",
-                UserId = 30,
-                CustomerId = 10
+                id = 1,
+                CustomerId = 10,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Aderonke",
-                UserId = 10,
-                CustomerId = 40
+                id = 2,
+                CustomerId = 40,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Inioluwa",
-                UserId = 40,
-                CustomerId = 40
+                id = 3,
+                CustomerId = 40,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 33,
-                CustomerId = 1
+                id = 4,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 13,
-                CustomerId = 1
+                id = 5,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 23,
-                CustomerId = 1
+                id = 6,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 53,
-                CustomerId = 1
+                id = 7,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 63,
-                CustomerId = 1
+                id = 8,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 43,
-                CustomerId = 1
+                id = 9,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
             new UserDto
             {
                 UserName = "Adebayo",
-                UserId = 33,
-                CustomerId = 1
+                id = 10,
+                CustomerId = 1,
+                CreatedDate = DateTime.Now,
             },
         };
     }
