@@ -11,7 +11,7 @@ namespace my_portfolio_project.Controllers
 {
     // [Route("api/[controller]/user")]
     [Route("api/user")]
-    //  [ApiController]
+    [ApiController]
     public class Mydata : ControllerBase
     {
         [HttpGet(Name = "GetAllUsers")]
@@ -102,11 +102,12 @@ namespace my_portfolio_project.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(UserDto))]
         public ActionResult<UserDto> DeleteUserById(int? id)
         {
             var dataList = UserRepo.userRepo;
 
+            //check is nothing is passed
             if (id == null || id.ToString() == "")
             {
                 ModelState.AddModelError("Exception", "id field must not be empty");
@@ -116,12 +117,14 @@ namespace my_portfolio_project.Controllers
 
             var item = dataList.FirstOrDefault(x => x.id == id);
 
+            //check if user doesnt exist
             if (item == null)
             {
                 ModelState.AddModelError("Exception", "This customer does not exist");
                 return NotFound(ModelState);
             }
 
+            //proceed to delete user
             for (var i = 0; i < dataList.Count; i++)
             {
                 if (id == dataList[i].id)
@@ -130,7 +133,41 @@ namespace my_portfolio_project.Controllers
                 }
             }
 
-            return Ok();
+            return NoContent();
+        }
+
+        [HttpPut("{id:int}", Name = "Update User")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(UserDto))]
+        public ActionResult<UserDto> UpdateUser(int id, [FromBody] UserDto _newUser)
+        {
+            var dataList = UserRepo.userRepo;
+
+            if (_newUser == null || id != _newUser.id)
+            {
+                ModelState.AddModelError("Exception", "Invalid id provider");
+                return BadRequest(ModelState);
+            }
+
+            var _selectedUser = dataList.FirstOrDefault(x => x.id == id);
+
+            //proceed to update user information
+            for (var i = 0; i < dataList.Count; i++)
+            {
+                if (id == dataList[i].id)
+                {
+                    var _user = dataList[i];
+                    _user.id = _newUser.id;
+                    _user.UserName = _newUser.UserName;
+                    _user.CustomerId = _newUser.CustomerId;
+                    _user.CreatedDate = _newUser.CreatedDate;
+                }
+            }
+            return Ok(_newUser);
         }
     }
 }
