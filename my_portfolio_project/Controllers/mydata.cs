@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using my_portfolio_project.Data;
 using my_portfolio_project.Models;
@@ -62,11 +63,11 @@ namespace my_portfolio_project.Controllers
                 return BadRequest(ModelState);
             }
 
+            var _selectedUsername = dataList.FirstOrDefault(x => x.UserName.ToLower() == _newUser.UserName.ToLower()
+            );
+
             //check if username provided is unique
-            if (
-                dataList.FirstOrDefault(x => x.UserName.ToLower() == _newUser.UserName.ToLower())
-                != null
-            )
+            if (_selectedUsername != null)
             {
                 ModelState!.AddModelError("Exception", "Username already exists");
                 return BadRequest(ModelState);
@@ -169,5 +170,49 @@ namespace my_portfolio_project.Controllers
             }
             return Ok(_newUser);
         }
+        [HttpPatch("{id:int}", Name = "UpdateSelectedUser")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+
+        public ActionResult updateSelectedVilla(int id, JsonPatchDocument<UserDto> _newUserPatch)
+        {
+            var dataList = UserRepo.userRepo;
+
+            var _selectedUser = dataList.FirstOrDefault(x => x.id == id);
+
+            if (_selectedUser == null)
+            {
+                return NotFound();
+
+            }
+
+            if (_newUserPatch == null || id == 0)
+            {
+                return BadRequest();
+
+            }
+
+            _newUserPatch.ApplyTo(_selectedUser, ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+
+            }
+
+            return Ok();
+
+
+        }
     }
+
+
+
+
+
+
+
+
 }

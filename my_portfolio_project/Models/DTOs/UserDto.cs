@@ -6,7 +6,7 @@ namespace my_portfolio_project.Models.DTOs
     public class UserDto
     {
         [Required]
-        //[MaxLength(10)]
+        [MaxLength(10)]
         public required string UserName { get; set; }
 
         public int id { get; set; }
